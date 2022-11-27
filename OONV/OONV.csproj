@@ -45,6 +45,10 @@
     <Compile Include="Entity.cs" />
     <Compile Include="EntityAttacker.cs" />
     <Compile Include="Action.cs" />
+    <Compile Include="CLIInterface.cs" />
+    <Compile Include="Sprite.cs" />
+    <Compile Include="HeroSprites.cs" />
+    <Compile Include="EnemySprites.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -4,7 +4,7 @@ namespace OONV
     public class Enemy : EntityAttacker
     {
 
-        public Enemy(int health, Attack attack) : base(health, attack)
+        public Enemy(int health, Attack attack, Sprite sprite) : base(health, attack, sprite)
         { 
 
         }

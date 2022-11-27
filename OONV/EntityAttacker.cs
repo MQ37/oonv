@@ -6,7 +6,7 @@ namespace OONV
 
         public Attack Attack { get; protected set; }
 
-        protected EntityAttacker(int health, Attack attack) : base(health)
+        protected EntityAttacker(int health, Attack attack, Sprite sprite) : base(health, sprite)
         {
             this.Attack = attack;
         }

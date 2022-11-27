@@ -7,12 +7,15 @@ namespace OONV
         public int Level { get; private set; }
         public Hero Hero { get; private set; }
         public Enemy Enemy { get; private set; }
+        private CLIInterface gInterface;
 
-        public Game(Hero hero)
+        public Game(Hero hero, CLIInterface gInterface)
         {
             this.Level = 0;
             this.Hero = hero;
             this.CreateEnemy();
+
+            this.gInterface = gInterface;
         }
 
         private void CreateEnemy()
@@ -29,24 +32,15 @@ namespace OONV
 
         }
 
-        public Action ActionMenu()
+        private Action ActionMenu()
         {
-            Console.WriteLine("1) Attack");
-            Console.WriteLine("2) Nothing");
-            Console.Write("Choose action: ");
+            return this.gInterface.ActionMenu();
 
-            string input = Console.ReadLine();
+        }
 
-            if (input == "1")
-            {
-                return Action.Attack;
-            } else if (input == "2")
-            {
-                return Action.Nothing;
-            }
-
-            return Action.Nothing;
-
+        private void ShowMessage(string msg)
+        {
+            this.gInterface.ShowMessage(msg);
         }
 
         private void NextLevel()
@@ -55,33 +49,39 @@ namespace OONV
             this.CreateEnemy();
         }
 
+        public void Render()
+        {
+            this.gInterface.Render(this.Hero, this.Enemy);
+        }
+
         public bool Round()
         {
+            this.Render();
             this.PrintStatus();
             Action action = this.ActionMenu();
             if (action == Action.Attack) {
-                Console.WriteLine("Hero attacking");
+                ShowMessage("Hero attacking");
                 this.Hero.DoAttack(this.Enemy);
             } else if (action == Action.Nothing)
             {
-                Console.WriteLine("You are vibing while the enemy is attacking you. What a power move!");
+                ShowMessage("You are vibing while the enemy is attacking you. What a power move!");
             }
 
             if (this.Enemy.IsAlive())
             {
-                Console.WriteLine("Enemy attacking");
+                ShowMessage("Enemy attacking");
                 this.Enemy.DoAttack(this.Hero);
             }
             else
             {
-                Console.WriteLine("Enemy died!");
-                Console.WriteLine("Progressing to next level");
+                ShowMessage("Enemy died!");
+                ShowMessage("Progressing to next level");
                 this.NextLevel();
             }
 
             if (!this.Hero.IsAlive())
             {
-                Console.WriteLine("----------  YOU DIED ---------- ");
+                ShowMessage("----------  YOU DIED ---------- ");
                 return false;
             }
 

@@ -7,10 +7,11 @@ namespace OONV
         public static void Main(string[] args)
         {
             Hero hero = HeroBuilder.CreateWarrior();
-
-            Game game = new Game(hero);
+            CLIInterface gInterface = new CLIInterface();
+            Game game = new Game(hero, gInterface);
 
             game.Loop();
+            //game.Render();
         }
     }
 }
