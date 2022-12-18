@@ -45,6 +45,7 @@ namespace OONV
 
         private void NextLevel()
         {
+            this.ShowMessage("Progressing into next level");
             this.Level += 1;
             this.CreateEnemy();
         }
@@ -54,10 +55,22 @@ namespace OONV
             this.gInterface.Render(this.Hero, this.Enemy);
         }
 
+        private bool CanProgress()
+        {
+            if (!this.Enemy.IsAlive())
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public bool Round()
         {
             this.Render();
             this.PrintStatus();
+
+            // Hero action
             Action action = this.ActionMenu();
             if (action == Action.Attack) {
                 ShowMessage("Hero attacking");
@@ -67,30 +80,59 @@ namespace OONV
                 ShowMessage("You are vibing while the enemy is attacking you. What a power move!");
             }
 
-            if (this.Enemy.IsAlive())
+            // Enemy attack
+            this.Enemy.DoAttack(this.Hero);
+
+            // Drop
+            if (!this.Enemy.IsAlive())
             {
-                ShowMessage("Enemy attacking");
-                this.Enemy.DoAttack(this.Hero);
-            }
-            else
-            {
-                ShowMessage("Enemy died!");
-                ShowMessage("Progressing to next level");
-                this.NextLevel();
+                ShowMessage("Enemy died");
+                Item item = this.Enemy.DropItem();
+                if (item != null)
+                {
+                    ShowMessage(String.Format("Enemy dropped: {0}", item.Name));
+                    if (item is IHeroApplicable)
+                    {
+                        IHeroApplicable applicable = (IHeroApplicable)item;
+                        applicable.Apply(this.Hero);
+                    }
+                }
             }
 
+            // Alive check
             if (!this.Hero.IsAlive())
             {
                 ShowMessage("----------  YOU DIED ---------- ");
                 return false;
             }
 
+            // Next level
+            if (CanProgress())
+            {
+                this.NextLevel();
+            }
+
             return true;
+        }
+
+        public void Entry()
+        {
+            while (true)
+            {
+                MenuOption option = this.gInterface.GameMenu();
+                if (option == MenuOption.Play)
+                {
+                    this.Loop();
+                } else if (option == MenuOption.Exit)
+                {
+                    break;
+                }
+            }
         }
 
         public void Loop()
         {
-            while(true)
+            while (true)
             {
                 if (!this.Round())
                 {

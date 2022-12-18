@@ -10,8 +10,7 @@ namespace OONV
             CLIInterface gInterface = new CLIInterface();
             Game game = new Game(hero, gInterface);
 
-            game.Loop();
-            //game.Render();
+            game.Entry();
         }
     }
 }

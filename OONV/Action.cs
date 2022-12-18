@@ -1,4 +1,5 @@
-﻿public enum Action {
+﻿public enum Action
+{
     Attack,
     Nothing
 }

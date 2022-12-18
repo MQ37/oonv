@@ -47,5 +47,17 @@ namespace OONV
                 this.Inteligence += inteligence;
             }
         }
+
+        public void Heal(int health)
+        {
+            if (this.Health + health > this.MaxHealth)
+            {
+                this.Health = this.MaxHealth;
+            }
+            else if (this.Health + health > 0)
+            {
+                this.Health += health;
+            }
+        }
     }
 }

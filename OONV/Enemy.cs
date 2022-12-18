@@ -16,5 +16,16 @@ namespace OONV
                 this.Health += health;
             }
         }
+
+        public Item DropItem()
+        {
+            Random rnd = new Random();
+            if (rnd.Next(100) > 80)
+            {
+                return new HealthPotion("Lesser Health Potion", 10);
+            }
+
+            return null;
+        }
     }
 }

@@ -16,20 +16,48 @@ namespace OONV
         {
             Console.WriteLine("1) Attack");
             Console.WriteLine("2) Nothing");
-            Console.Write("Choose action: ");
 
-            string input = Console.ReadLine();
-
-            if (input == "1")
+            while (true)
             {
-                return Action.Attack;
-            }
-            else if (input == "2")
-            {
-                return Action.Nothing;
+                Console.Write("Choose action: ");
+                string input = Console.ReadLine();
+
+                if (input == "1")
+                {
+                    return Action.Attack;
+                }
+                else if (input == "2")
+                {
+                    return Action.Nothing;
+                }
+
+                Console.WriteLine("Invalid action");
             }
 
-            return Action.Nothing;
+        }
+
+        public MenuOption GameMenu()
+        {
+            Console.WriteLine("--- MENU ---");
+            Console.WriteLine("1) Play");
+            Console.WriteLine("2) Exit");
+
+            while (true)
+            {
+                Console.Write("Choose: ");
+                string input = Console.ReadLine();
+
+                if (input == "1")
+                {
+                    return MenuOption.Play;
+                }
+                else if (input == "2")
+                {
+                    return MenuOption.Exit;
+                }
+
+                Console.WriteLine("Invalid option");
+            }
 
         }
 

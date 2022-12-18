@@ -49,6 +49,10 @@
     <Compile Include="Sprite.cs" />
     <Compile Include="HeroSprites.cs" />
     <Compile Include="EnemySprites.cs" />
+    <Compile Include="MenuOption.cs" />
+    <Compile Include="Item.cs" />
+    <Compile Include="IHeroApplicable.cs" />
+    <Compile Include="HealthPotion.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

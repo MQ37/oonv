@@ -23,8 +23,15 @@ namespace OONV
 
         public void DoAttack(EntityAttacker to, int hits)
         {
-            Console.WriteLine("Attack");
-            this.Attack.Do(this, to, hits);
+            if (this.IsAlive())
+            {
+                Console.WriteLine(String.Format("{0} -> Attack", this.GetType().Name));
+                this.Attack.Do(this, to, hits);
+            }
+            else
+            {
+                Console.WriteLine(String.Format("{0} -> Cannot attack - entity not alive", this.GetType().Name));
+            }
         }
 
         virtual public void TakeHit(EntityAttacker from, int damage, int hits)
