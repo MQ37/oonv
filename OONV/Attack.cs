@@ -12,6 +12,14 @@ namespace OONV
             this.AttackType = attackType;
         }
 
+        public void UpdateDamage(int damage)
+        {
+            if (this.Damage + damage > 0)
+            {
+                this.Damage += damage;
+            }
+        }
+
         public void Do(Entity to)
         {
             to.TakeHit(this.Damage);

@@ -41,7 +41,7 @@
     <Compile Include="Game.cs" />
     <Compile Include="AttackType.cs" />
     <Compile Include="AttackBlunt.cs" />
-    <Compile Include="EnemyBuilder.cs" />
+    <Compile Include="SkeletonEnemyBuilder.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="EntityAttacker.cs" />
     <Compile Include="Action.cs" />
@@ -53,6 +53,8 @@
     <Compile Include="Item.cs" />
     <Compile Include="IHeroApplicable.cs" />
     <Compile Include="HealthPotion.cs" />
+    <Compile Include="IEnemyBuilder.cs" />
+    <Compile Include="GameSave.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

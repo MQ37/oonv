@@ -12,10 +12,11 @@ namespace OONV
             this.logSize = 20;
         }
 
-        public Action ActionMenu()
+        public MenuOption ActionMenu()
         {
             Console.WriteLine("1) Attack");
             Console.WriteLine("2) Nothing");
+            Console.WriteLine("3) Save");
 
             while (true)
             {
@@ -24,11 +25,15 @@ namespace OONV
 
                 if (input == "1")
                 {
-                    return Action.Attack;
+                    return MenuOption.Attack;
                 }
                 else if (input == "2")
                 {
-                    return Action.Nothing;
+                    return MenuOption.Nothing;
+                }
+                else if (input == "3")
+                {
+                    return MenuOption.Save;
                 }
 
                 Console.WriteLine("Invalid action");
@@ -41,6 +46,7 @@ namespace OONV
             Console.WriteLine("--- MENU ---");
             Console.WriteLine("1) Play");
             Console.WriteLine("2) Exit");
+            Console.WriteLine("3) Load");
 
             while (true)
             {
@@ -54,6 +60,10 @@ namespace OONV
                 else if (input == "2")
                 {
                     return MenuOption.Exit;
+                }
+                else if (input == "3")
+                {
+                    return MenuOption.Load;
                 }
 
                 Console.WriteLine("Invalid option");

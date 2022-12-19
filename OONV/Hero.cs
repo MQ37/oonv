@@ -59,5 +59,15 @@ namespace OONV
                 this.Health += health;
             }
         }
+
+        public void Reset()
+        {
+            this.Health = this.MaxHealth;
+        }
+
+        public void Load(GameSave save)
+        {
+            this.Health = save.HeroHealth;
+        }
     }
 }

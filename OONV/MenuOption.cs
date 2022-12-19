@@ -1,5 +1,9 @@
 ﻿public enum MenuOption
 {
     Play,
-    Exit
+    Exit,
+    Save,
+    Load,
+    Attack,
+    Nothing
 }

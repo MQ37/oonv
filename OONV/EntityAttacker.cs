@@ -25,7 +25,7 @@ namespace OONV
         {
             if (this.IsAlive())
             {
-                Console.WriteLine(String.Format("{0} -> Attack", this.GetType().Name));
+                Console.WriteLine(String.Format("{0} -> Attack ({1})", this.GetType().Name, this.Attack.Damage));
                 this.Attack.Do(this, to, hits);
             }
             else

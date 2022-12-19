@@ -1,4 +1,8 @@
 ﻿using System;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+
 namespace OONV
 {
     public class Game
@@ -11,16 +15,28 @@ namespace OONV
 
         public Game(Hero hero, CLIInterface gInterface)
         {
-            this.Level = 0;
             this.Hero = hero;
-            this.CreateEnemy();
-
             this.gInterface = gInterface;
+            this.Reset();
         }
 
         private void CreateEnemy()
         {
-            Enemy enemy = EnemyBuilder.CreateSmall();
+            IEnemyBuilder builder = new SkeletonEnemyBuilder();
+            Enemy enemy;
+            if (this.Level < 5)
+            {
+                enemy = builder.CreateSmall();
+            }
+            else if (this.Level < 10)
+            {
+                enemy = builder.CreateMedium();
+            }
+            else
+            {
+                enemy = builder.CreateLarge();
+            }
+
             this.Enemy = enemy;
         }
 
@@ -32,7 +48,7 @@ namespace OONV
 
         }
 
-        private Action ActionMenu()
+        private MenuOption ActionMenu()
         {
             return this.gInterface.ActionMenu();
 
@@ -70,18 +86,33 @@ namespace OONV
             this.Render();
             this.PrintStatus();
 
+            bool enemyAttack = true;
+
             // Hero action
-            Action action = this.ActionMenu();
-            if (action == Action.Attack) {
+            MenuOption option = this.ActionMenu();
+            if (option == MenuOption.Attack) {
                 ShowMessage("Hero attacking");
                 this.Hero.DoAttack(this.Enemy);
-            } else if (action == Action.Nothing)
+            } else if (option == MenuOption.Nothing)
             {
                 ShowMessage("You are vibing while the enemy is attacking you. What a power move!");
+            } else if (option == MenuOption.Save)
+            {
+                ShowMessage("Saving...");
+                GameSave save = new GameSave(this.Hero.Health, this.Enemy.Health, this.Level);
+                Stream s = File.Open("save.dat", FileMode.Create);
+                BinaryFormatter b = new BinaryFormatter();
+                b.Serialize(s, save);
+                s.Close();
+
+                enemyAttack = false;
             }
 
             // Enemy attack
-            this.Enemy.DoAttack(this.Hero);
+            if (enemyAttack)
+            {
+                this.Enemy.DoAttack(this.Hero);
+            }
 
             // Drop
             if (!this.Enemy.IsAlive())
@@ -122,10 +153,22 @@ namespace OONV
                 MenuOption option = this.gInterface.GameMenu();
                 if (option == MenuOption.Play)
                 {
+                    this.Reset();
                     this.Loop();
                 } else if (option == MenuOption.Exit)
                 {
                     break;
+                } else if (option == MenuOption.Load)
+                {
+                    ShowMessage("Loading...");
+                    GameSave save;
+                    Stream s = File.Open("save.dat", FileMode.Open);
+                    BinaryFormatter b = new BinaryFormatter();
+                    save = (GameSave)b.Deserialize(s);
+                    s.Close();
+
+                    this.Load(save);
+                    this.Loop();
                 }
             }
         }
@@ -139,6 +182,21 @@ namespace OONV
                     break;
                 }
             }
+        }
+
+        public void Reset()
+        {
+            this.Level = 0;
+            this.Hero.Reset();
+            this.CreateEnemy();
+        }
+
+        public void Load(GameSave save)
+        {
+            this.Level = save.Level;
+            this.CreateEnemy();
+            this.Hero.Load(save);
+            this.Enemy.Load(save);
         }
     }
 }
